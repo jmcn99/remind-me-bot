@@ -15,9 +15,6 @@ db = client["Reminders"]
 collection = db["ReminderList"]
 
 
-
-
-
 types = [
         "min",
         "minutes",
@@ -35,6 +32,7 @@ class reminders(commands.Cog, name="reminders"):
     
     def __init__(self, bot):
         self.bot = bot
+        self.check_reminders.start()
 
     @commands.command()
     async def db_check(self, ctx):
@@ -49,9 +47,9 @@ class reminders(commands.Cog, name="reminders"):
             if DateType.startswith("m"):
                 time = int(TimeValue)
             elif DateType.startswith("h"):
-                time = int(TimeValue * 60)
+                time = int(TimeValue) * 60
             elif DateType.startswith("d"):
-                time = int(TimeValue * 1440)
+                time = int(TimeValue) * 1440
             
             #Figure out date in which to send reminder
 
@@ -61,14 +59,34 @@ class reminders(commands.Cog, name="reminders"):
     
             #create reminder value
             reminder = {
-                'user': ctx.author.id,
+                'user': ctx.author,
                 'date': remind_date,
                 'message': Reminder
             }
+
+            print(f"Successfully uploaded reminder to DB by user {ctx.message.author}, id: {ctx.message.author.id}.")
+
+            #Add reminder to DB
             collection.insert_one(reminder)
 
         else:
             await ctx.send("Please enter a valid unit of time! (Minute, Hour, Day)")
+
+    @tasks.loop(minutes=1)
+    async def check_reminders(self):
+        current_date = datetime.datetime.now()
+        myquery = {'date': {'$lt': current_date}}
+
+        print('Checking Reminders...')
+        for x in collection.find(myquery):
+            userId = int(x['user'])
+            user = self.bot.get_user(userId)
+            message = x['message'] 
+            embed=discord.Embed(title="Sample Embed", 
+            description=message, color=discord.Color.purple())  
+            user.send(embed=embed)   
+        
+
             
           
     @remindme.error
