@@ -47,14 +47,7 @@ if __name__ == "__main__":
                 print(f"Failed to load extension {extension}\n{exception}")
 
 
-#Runs on every command
-@bot.event
-async def on_command_completion(ctx):
-    fullCommandName = ctx.command.qualified_name
-    split = fullCommandName.split(" ")
-    executedCommand = str(split[0])
-    print(
-        f"Executed {executedCommand} command in {ctx.guild.name} (ID: {ctx.message.guild.id}) by {ctx.message.author} (ID: {ctx.message.author.id})")
+
 
     
 bot.run(TOKEN)
