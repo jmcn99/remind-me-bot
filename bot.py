@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot
 import pymongo
+intents = discord.Intents.default()
+intents.members = True
 
 #load config
 if not os.path.isfile("config.yaml"):
@@ -17,7 +19,7 @@ else:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
 #Declare bot
-bot = Bot(command_prefix=config["bot_prefix"])
+bot = Bot(command_prefix=config["bot_prefix"], intents=intents)
 
 
 #get token

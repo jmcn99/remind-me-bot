@@ -59,7 +59,7 @@ class reminders(commands.Cog, name="reminders"):
     
             #create reminder value
             reminder = {
-                'user': ctx.author,
+                'user': ctx.author.id,
                 'date': remind_date,
                 'message': Reminder
             }
@@ -80,11 +80,12 @@ class reminders(commands.Cog, name="reminders"):
         print('Checking Reminders...')
         for x in collection.find(myquery):
             userId = int(x['user'])
-            user = self.bot.get_user(userId)
+            user = await self.bot.fetch_user(userId)
             message = x['message'] 
-            embed=discord.Embed(title="Sample Embed", 
+            embed=discord.Embed(title="Reminder!", 
             description=message, color=discord.Color.purple())  
-            user.send(embed=embed)   
+            embed.set_footer(text=f"Sent on {current_date.strftime('%x')}. DM pure#2398 for support.")
+            await user.send(embed=embed)   
         
 
             
@@ -92,7 +93,7 @@ class reminders(commands.Cog, name="reminders"):
     @remindme.error
     async def remindme_error(self, ctx, error: commands.CommandError):
         if isinstance(error, commands.MissingRequiredArgument):
-            message = f"You're missing part of the command! Try again, and add a {error.param}"
+            message = f"Set reminders by typing '!rm [Time] [Reminder]. Time should be formatted similar too [1 day] or [2 hrs], etc."
         else:
             message = "Uh oh! Something went wrong. Try again!"
             print(error)
