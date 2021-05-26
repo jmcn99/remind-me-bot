@@ -4,12 +4,16 @@ import os
 import sys
 import yaml
 import random
+from boto.s3.connection import S3Connection
 from dotenv import load_dotenv
-from discord.ext import commands, tasks
+from discord.ext import tasks
 from discord.ext.commands import Bot
-import pymongo
 intents = discord.Intents.default()
 intents.members = True
+
+#Accessing keys from heroku
+s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
+TOKEN = os.environ['DISCORD_TOKEN']
 
 #load config
 if not os.path.isfile("config.yaml"):
@@ -20,11 +24,6 @@ else:
 
 #Declare bot
 bot = Bot(command_prefix=config["bot_prefix"], intents=intents)
-
-
-#get token
-load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
 
 # On Ready
 @bot.event

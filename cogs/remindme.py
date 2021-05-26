@@ -2,7 +2,6 @@ import types
 import discord
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot
-import typing
 import datetime
 import pymongo
 from dotenv import load_dotenv
@@ -69,6 +68,10 @@ class reminders(commands.Cog, name="reminders"):
             #Add reminder to DB
             collection.insert_one(reminder)
 
+            #add reaction to message
+            emoji = '\N{THUMBS UP SIGN}'
+            await ctx.message.add_reaction(emoji)
+
         else:
             await ctx.send("Please enter a valid unit of time! (Minute, Hour, Day)")
 
@@ -82,10 +85,13 @@ class reminders(commands.Cog, name="reminders"):
             userId = int(x['user'])
             user = await self.bot.fetch_user(userId)
             message = x['message'] 
+            id = x['_id']
             embed=discord.Embed(title="Reminder!", 
             description=message, color=discord.Color.purple())  
             embed.set_footer(text=f"Sent on {current_date.strftime('%x')}. DM pure#2398 for support.")
-            await user.send(embed=embed)   
+            await user.send(embed=embed)
+            
+            collection.delete_one({'_id': id})
         
 
             
