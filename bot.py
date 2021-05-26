@@ -15,15 +15,9 @@ intents.members = True
 s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
 TOKEN = os.environ['DISCORD_TOKEN']
 
-#load config
-if not os.path.isfile("config.yaml"):
-    sys.exit("config.yaml not found! Please try again.")
-else:
-    with open("config.yaml") as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
 
 #Declare bot
-bot = Bot(command_prefix=config["bot_prefix"], intents=intents)
+bot = Bot(command_prefix="!", intents=intents)
 
 # On Ready
 @bot.event
