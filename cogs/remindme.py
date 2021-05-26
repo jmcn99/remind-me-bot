@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import os
 
 #Loading database
-DATABASE = os.environ("DATABASE_CONNECTION")
+DATABASE = os.environ["DATABASE_CONNECTION"]
 client = pymongo.MongoClient(DATABASE)
 db = client["Reminders"]
 collection = db["ReminderList"]

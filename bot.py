@@ -12,7 +12,7 @@ intents = discord.Intents.default()
 intents.members = True
 
 #Accessing keys from heroku
-TOKEN = os.environ("DISCORD_TOKEN")
+TOKEN = os.environ["DISCORD_TOKEN"]
 
 
 #Declare bot
