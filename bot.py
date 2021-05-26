@@ -12,8 +12,7 @@ intents = discord.Intents.default()
 intents.members = True
 
 #Accessing keys from heroku
-s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
-TOKEN = os.environ['DISCORD_TOKEN']
+
 
 
 #Declare bot
