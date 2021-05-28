@@ -1,6 +1,6 @@
 <h1 align='center'>🕒 Remind me!</h1>
 <br />
-<p>
+
     
     A simple Discord reminder bot! Uses a single command to send reminders, on a minute/hour/day basis.
 
@@ -20,4 +20,4 @@
     Follow this with your reminder! Remind Me! will leave a 👍 to let you know your reminder has been uploaded.
 
 
-</p>
+
